@@ -1,0 +1,87 @@
+﻿@model ControleClientesMvc.Models.ClienteModel
+
+<div class="header-container">
+    <h2 class="fw-bold">Atualizar dados do cliente</h2>
+    <a href="@Url.Action("Index", "Clientes")" class="btn-cancelar">Cancelar</a>
+</div>
+<div class="table-container">
+    @if (TempData["SucessoEditarCliente"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SucessoEditarCliente"]
+        </div>
+    }
+    @if (TempData["ErroEditarCliente"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["ErroEditarCliente"]
+        </div>
+    }
+    <form asp-action="Editar" method="post" class="row g-3">
+        <div class="col-md-6">
+            <label for="inputName" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="inputName" name="Nome" value="@Model.Nome" placeholder="Nome do Cliente" required />
+        </div>
+        <div class="col-md-6">
+            <label for="inputDocument" class="form-label">Documento</label>
+            <input type="text" class="form-control" id="inputDocument" name="Documento" value="@Model.Documento" placeholder="Número do Documento" required />
+        </div>
+        <div class="col-md-6">
+            <label for="inputPhone" class="form-label">Telefone</label>
+            <input type="tel" class="form-control" id="inputPhone" name="Telefone" value="@Model.Telefone" placeholder="Telefone do Cliente" required />
+        </div>
+        <div class="col-md-6">
+            <label for="inputAddress" class="form-label">Endereço</label>
+            <input type="text" class="form-control" id="inputAddress" name="Endereco" value="@Model.Endereco" placeholder="Endereço do Cliente" required />
+        </div>
+        <div class="btn-cadastrar-container col-12">
+            <button type="submit" class="btn-cadastrar">Atualizar</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        width: 100%;
+        margin: 0;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .btn-cancelar {
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .btn-cadastrar-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+
+    .btn-cadastrar {
+        background-color: Black;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+</style>

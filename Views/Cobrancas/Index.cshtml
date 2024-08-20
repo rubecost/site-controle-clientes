@@ -1,0 +1,221 @@
+﻿@model List<ControleClientesMvc.Models.CobrancaModel>
+
+<div class="header-container">
+	<h2 class="fw-bold">Cobranças / @ViewData["NomeCliente"]</h2>
+	<div class="button-group">
+		<a href="@Url.Action("Criar","Cobrancas")" class="btn-cadastrar btn-preto">Cadastrar</a>
+		<a href="@Url.Action("Index","Clientes")" class="btn-cadastrar btn-vermelho">Cancelar</a>
+	</div>
+</div>
+
+<div class="table-container">
+	@if (TempData["AvisoMessage"] != null)
+	{
+		<div class="alert alert-success">
+			@TempData["AvisoMessage"]
+		</div>
+	}
+	<table>
+		<thead>
+			<tr>
+				<th style="width:5%">ID</th>
+				<th style="width:55%">Descrição</th>
+				<th style="width:10%">Valor</th>
+				<th style="width:10%">Vencimento</th>
+				<th style="width:20%"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var cobranca in Model)
+			{
+				<tr>
+					<td class="text-black">@cobranca.Id</td>
+					<td>
+						<div class="action-descriptions">
+							@cobranca.Descricao
+							@if (!cobranca.Status && cobranca.Data.Date < DateTime.Now.Date)
+							{
+								<div class="alert-status" role="alert">Atrasado!</div>
+							}
+						</div>
+					</td>
+					<td><div class="text-black">R$ @cobranca.Valor.ToString("N2")</div></td>
+					<td><div class="text-black">@cobranca.Data.ToString("dd/MM/yyyy")</div></td>
+					<td>
+						<div class="action-buttons">
+							<a class="edit-button" href="@Url.Action("Editar","Cobrancas", new { id = cobranca.Id })"><i class="fas fa-edit"></i></a>
+
+							<!-- Formulário de Exclusão -->
+							<form asp-action="Excluir" asp-controller="Cobrancas" method="post" onsubmit="return excluirItem(this);" style="display:inline;">
+								<input type="hidden" name="id" value="@cobranca.Id" />
+								<input type="hidden" name="__RequestVerificationToken" value="@Html.AntiForgeryToken().ToString()" />
+								<button type="submit" class="delete-button">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</form>
+
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<script>
+	function excluirItem(form) {
+		if (!confirm('Tem certeza de que deseja excluir essa cobrança?')) {
+			return false;
+		}
+
+		var formData = new FormData(form);
+		var url = form.action;
+		var method = form.method;
+
+		fetch(url, {
+			method: method,
+			body: formData,
+			headers: {
+				'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+			}
+		})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					// Atualiza a página ou parte dela
+					window.location.reload(); // Recarrega a página
+				} else {
+					alert('Erro ao excluir o item.');
+				}
+			})
+			.catch(error => {
+				console.error('Erro:', error);
+				alert('Erro ao excluir o item.');
+			});
+
+		return false; // Previne o comportamento padrão do formulário
+	}
+</script>
+
+<style>
+	.table-container {
+		overflow-x: auto;
+		width: 100%;
+		margin-bottom: 50px;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	table {
+		border-collapse: collapse;
+		width: 100%;
+		border: 1px solid #ddd;
+		table-layout: auto;
+	}
+
+	th, td {
+		text-align: center;
+		padding: 19px;
+		vertical-align: middle;
+	}
+
+	th {
+		background-color: black;
+		color: white;
+	}
+
+		th:first-child, td:first-child {
+			text-align: left;
+		}
+
+	tr:nth-child(even) {
+		background-color: #f1f1f1;
+	}
+
+	tr:nth-child(odd) {
+		background-color: white;
+	}
+
+	.text-black {
+		color: black;
+	}
+
+	.edit-button, .delete-button {
+		display: inline-flex; 
+		align-items: center; 
+		justify-content: center; 
+		width: 25px; 
+		height: 25px; 
+		text-align: center;
+		cursor: pointer;
+		border-radius: 4px;
+		border: 0px;
+		color: white;
+		font-size: 17px; 
+	}
+
+	.edit-button {
+		background-color: blue;
+	}
+
+	.delete-button {
+		background-color: red;
+	}
+
+	.action-buttons {
+		display: flex;
+		align-items: center; 
+		justify-content: flex-end; 
+		gap: 10px; 
+	}
+
+	.action-descriptions {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 5px;
+		text-align: center;
+	}
+
+	.header-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 20px;
+	}
+
+	.button-group {
+		display: flex;
+		gap: 10px;
+	}
+
+	.btn-cadastrar {
+		border: none;
+		border-radius: 4px;
+		padding: 10px 20px;
+		cursor: pointer;
+		font-size: 14px;
+		text-decoration: none;
+	}
+
+	.btn-vermelho {
+		background-color: red;
+		color: white;
+	}
+
+	.btn-preto {
+		background-color: black;
+		color: white;
+	}
+
+	.alert-status {
+		background-color: #ff9292;
+		color: black;
+		border: none;
+		border-radius: 4px;
+		padding: 0 10px;
+		height: 20px;
+		line-height: 20px;
+		font-size: 12px;
+		vertical-align: middle;
+	}
+</style>

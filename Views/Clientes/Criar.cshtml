@@ -1,0 +1,96 @@
+﻿@model ControleClientesMvc.Models.ClienteModel
+
+<div class="header-container">
+    <h2 class="fw-bold">Cadastrar novo cliente</h2>
+    <a href="@Url.Action("Index", "Clientes")" class="btn-cancelar">Cancelar</a>
+</div>
+<div class="table-container">
+    @if (TempData["SucessoCriarCliente"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SucessoCriarCliente"]
+        </div>
+    }
+    @if (TempData["ErroCriarCliente"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["ErroCriarCliente"]
+        </div>
+    }
+    <form asp-action="Criar" method="post" class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Nome" class="form-label">Nome</label>
+            <input asp-for="Nome" class="form-control" placeholder="Nome do Cliente" required />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Documento" class="form-label">Documento</label>
+            <input asp-for="Documento" class="form-control" placeholder="Número do Documento" required />
+            <span asp-validation-for="Documento" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Telefone" class="form-label">Telefone</label>
+            <input asp-for="Telefone" class="form-control" placeholder="Telefone do Cliente" required />
+            <span asp-validation-for="Telefone" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Endereco" class="form-label">Endereço</label>
+            <input asp-for="Endereco" class="form-control" placeholder="Endereço do Cliente" required />
+            <span asp-validation-for="Endereco" class="text-danger"></span>
+        </div>
+        <div class="btn-cadastrar-container col-12">
+            <button type="submit" class="btn-cadastrar">Cadastrar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+<style>
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        width: 100%;
+        margin: 0;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .btn-cancelar {
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .btn-cadastrar-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+
+    .btn-cadastrar {
+        background-color: Black;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+</style>

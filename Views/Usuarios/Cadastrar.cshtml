@@ -1,0 +1,137 @@
+﻿@model ControleClientesMvc.Models.UsuarioModel
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Cadastrar</title>
+	<style>
+		.login-page {
+			background-color: #ebebeb;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.login-frame {
+			background-color: white;
+			padding: 30px;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			width: 400px;
+			text-align: center;
+			transform: scale(0.9);
+			margin: 10px;
+		}
+
+			.login-frame h1 {
+				color: black;
+				font-weight: 900;
+				margin-bottom: 20px;
+			}
+
+			.login-frame .form-group {
+				font-size: 14px;
+				text-align: start;
+				margin-bottom: 15px;
+			}
+
+			.login-frame .form-control {
+				width: 100%;
+				padding: 10px;
+				margin: 5px 0 15px;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				background-color: #f1f1f1;
+			}
+
+			.login-frame .btn {
+				width: 100%;
+				padding: 10px;
+				margin: 10px 0px 0px 0;
+				background-color: #222222;
+				color: white;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+			}
+
+				.login-frame .btn:hover {
+					background-color: #333333;
+				}
+
+			.login-frame .text-center {
+				margin-top: 10px;
+				text-align: center;
+			}
+
+			.login-frame .register-link {
+				margin: 30px 0px 20px 0px;
+			}
+
+				.login-frame .register-link a {
+					margin: 30px 0px 20px 0px;
+					color: #555555;
+					text-decoration: none;
+					text-align: center;
+					font-size: 14px;
+				}
+
+					.login-frame .register-link a:hover {
+						text-decoration: underline;
+						font-size: 14px;
+					}
+
+		body.login-page .navbar,
+		body.login-page .footer {
+			display: none;
+		}
+
+		.div-grid {
+			display: grid;
+			place-items: center;
+		}
+	</style>
+</head>
+<body class="login-page">
+	<div class="div-grid">
+		<div class="login-frame">
+			<h1 class="fw-bold">Cadastrar</h1>
+			<form asp-action="Cadastrar" asp-controller="Usuarios" method="post">
+				<div class="form-group">
+					<label asp-for="Nome" class="form-label">Nome</label>
+					<input asp-for="Nome" class="form-control" />
+					<span asp-validation-for="Nome" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Email" class="form-label">E-mail</label>
+					<input asp-for="Email" class="form-control" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Senha" class="form-label">Senha</label>
+					<input asp-for="Senha" type="password" class="form-control" />
+					<span asp-validation-for="Senha" class="text-danger"></span>
+				</div>
+				<button type="submit" class="btn btn-primary">Criar Conta</button>
+			</form>
+			<div class="register-link">
+				<a href="@Url.Action("Login", "Usuarios")">Cancelar</a>
+			</div>
+			@if (TempData["SucessoCadastro"] != null)
+			{
+				<div class="alert alert-success" role="alert">
+					@TempData["SucessoCadastro"]
+				</div>
+			}
+			@if (TempData["ErroCadastro"] != null)
+			{
+				<div class="alert alert-danger" role="alert">
+					@TempData["ErroCadastro"]
+				</div>
+			}
+		</div>
+	</div>
+</body>
+</html>

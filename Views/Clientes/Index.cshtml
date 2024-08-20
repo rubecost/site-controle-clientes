@@ -1,0 +1,195 @@
+﻿@model List<ControleClientesMvc.Models.CobrancaModel>
+
+<div class="header-container">
+    <h2 class="fw-bold">Clientes</h2>
+    <a href="@Url.Action("Criar", "Clientes")" class="btn-cadastrar">Cadastrar</a>
+</div>
+<div class="table-container">
+    @if (TempData["AvisoBoasVindas"] != null)
+    {
+        <div class="alert alert-primary">
+            @TempData["AvisoBoasVindas"]
+        </div>
+    }
+    @if (TempData["SuccessExcluirCliente"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessExcluirCliente"]
+        </div>
+    }
+    @if (TempData["ErrorExcluirCliente"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorExcluirCliente"]
+        </div>
+    }
+    <table>
+        <thead>
+            <tr>
+                <th style="width:5%">ID</th>
+                <th style="width:35%">Nome</th>
+                <th style="width:10%">Pagos</th>
+                <th style="width:10%">Abertos</th>
+                <th style="width:10%">Atrasados</th>
+                <th style="width:30%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in Model)
+            {
+                <tr>
+                    <td class="text-black">@cliente.Id</td>
+                    <td class="text-black">@cliente.Nome</td>
+                    <td><div class="circleGreen">@cliente.Pagos</div></td>
+                    <td><div class="circleBlue">@cliente.Abertos</div></td>
+                    <td><div class="circleRed">@cliente.Atrasados</div></td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="@Url.Action("Editar", "Clientes", new { id = cliente.Id, nome = cliente.Nome })" class="edit-button">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form asp-action="Excluir" asp-controller="Clientes" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@cliente.Id" />
+                                <button type="submit" class="delete-button" onclick="return confirm('Tem certeza de que deseja excluir este cliente?');">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                            <a href="@Url.Action("Index", "Cobrancas", new { id = cliente.Id, nome = cliente.Nome })" class="charges-button" style="text-decoration:none">Cobranças</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .table-container {
+        overflow-x: auto;
+        width: 100%;
+        margin-bottom: 50px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #ddd;
+        table-layout: auto;
+    }
+
+    th, td {
+        text-align: center;
+        padding: 19px;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: black;
+        color: white;
+    }
+
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+
+    tr:nth-child(even) {
+        background-color: #f1f1f1;
+    }
+
+    tr:nth-child(odd) {
+        background-color: white;
+    }
+
+    .text-black {
+        color: black;
+    }
+
+    .circleGreen, .circleBlue, .circleRed {
+        width: 25px; 
+        height: 25px; 
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        font-size: 15px; 
+        font-weight: bold;
+        line-height: 25px; 
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .circleGreen {
+        background-color: #6ef173;
+    }
+
+    .circleBlue {
+        background-color: #6db4ff;
+    }
+
+    .circleRed {
+        background-color: #ff9292;
+    }
+
+    .edit-button, .delete-button {
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        width: 25px; 
+        height: 25px; 
+        cursor: pointer;
+        border-radius: 4px;
+        color: white;
+        font-size: 17px; 
+    }
+
+    .edit-button {
+        background-color: blue;
+    }
+
+    .delete-button {
+        background-color: red;
+    }
+
+    .charges-button {
+        background-color: black;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0 15px; 
+        height: 25px; 
+        line-height: 25px; 
+        cursor: pointer;
+        font-size: 14px; 
+        vertical-align: middle;
+        display: inline-flex;
+        align-items: center; 
+        justify-content: center; 
+    }
+
+    .action-buttons {
+        display: flex;
+        align-items: center; 
+        justify-content: flex-end; 
+        gap: 10px; 
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-cadastrar {
+        background-color: black;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+    }
+</style>
