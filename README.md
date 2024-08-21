@@ -42,7 +42,7 @@ Aqui estão algumas capturas de tela do sistema para que você possa visualizar 
 
 4. **Tela de visão geral das pendências**
 
-   ![Tela de Cadastro de Cliente](Img/cobranças.png.png)
+   ![Tela de Cadastro de Cliente](Img/cobrancas.png)
    *Descrição: Tela de visão geral das pendências do cliente selecionado.*
 
 5. **Tela de Cadastro de Cliente**
